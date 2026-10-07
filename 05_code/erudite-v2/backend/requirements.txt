@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+firebase-admin
+google-cloud-aiplatform
+google-cloud-storage
+google-cloud-discoveryengine
+vertexai
+pydantic
+slowapi
+python-dotenv
+httpx
+modal
+python-multipart

@@ -1,0 +1,226 @@
+{
+  "school_id": "massachusetts-institute-of-technology",
+  "display_name": "Massachusetts Institute of Technology",
+  "research_date": "2026-05-22",
+  "staleness_review_due": "2027-05-22",
+  "policy_type": "A",
+  "policy_type_verified_on": "2026-05-22",
+  "policy_type_source_url": "https://mitadmissions.org/help/faq/need-blind-admissions/ ; https://sfs.mit.edu/undergraduate-students/apply-for-aid/international/ ; https://sfs.mit.edu/undergraduate-students/types-of-aid/loans/ (all retrieved 2026-05-22)",
+  "policy_type_applies_to_intl": true,
+  "policy_change_risk": "low",
+  "policy_change_risk_reason": "No negative change since 2022 was identified in reviewed official sources. Current MIT pages still state need-blind admissions for all students and 100% demonstrated-need treatment for international students. Endowed funds remain very large, though external macro pressures remain a general watch item.",
+  "cds": {
+    "academic_year": "2024-2025 estimated",
+    "h6_recipients": 412,
+    "h6_avg_award": 77266,
+    "h6_total_budget": 31833517,
+    "total_intl_enrollment": 529,
+    "computed": {
+      "coverage_rate": "77.9% = 412 / 529",
+      "implied_gap": "ESTIMATE: USD 15,494 using current 2026-2027 COA of USD 92,760; comparable-year proxy gap is USD 12,074 using official USD 89,340 cost figure",
+      "budget_per_intl_student": "USD 60,176.78 = 31,833,517 / 529",
+      "pct_coa_covered_by_avg": "ESTIMATE: 83.3% using current 2026-2027 COA; comparable-year proxy is 86.5% using USD 89,340"
+    },
+    "loans_in_package": false,
+    "avg_loan_component": "USD 0 on required-package basis according to MIT's no-required-loan packaging statement; actual voluntary international borrowing average is DATA NOT PUBLICLY AVAILABLE",
+    "work_study_in_package": "Student employment exists, but Federal Work-Study does not generally apply to international students; most MIT students make about USD 1,700 per term from campus work",
+    "merit_classified_as_need": false,
+    "source_url": "https://ir.mit.edu/projects/2024-25-common-data-set/ ; https://sfs.mit.edu/undergraduate-students/types-of-aid/loans/ ; https://sfs.mit.edu/find-a-job/for-students/working-at-mit/ (retrieved 2026-05-22)"
+  },
+  "coa": {
+    "year": "2026-2027 current official COA",
+    "tuition": 66720,
+    "room_board": 22194,
+    "fees": 420,
+    "other": 3426,
+    "total": 92760,
+    "source_url": "https://sfs.mit.edu/undergraduate-students/the-cost-of-attendance/coa/ (retrieved 2026-05-22)"
+  },
+  "nationality_aid_profile": {
+    "western_english_aid_signal": "moderate",
+    "east_southeast_asian_aid_signal": "moderate",
+    "south_asian_aid_signal": "moderate",
+    "bangladesh_specific": {
+      "estimated_annual_admits": "ESTIMATE: roughly 1-2 Bangladeshi undergraduates per entering class, inferred from 6-8 Bangladeshi undergraduates enrolled in 2024-2026 official ISO country counts",
+      "estimated_aid_rate": "DATA NOT PUBLICLY AVAILABLE",
+      "estimated_avg_package_range": [
+        "DATA NOT PUBLICLY AVAILABLE",
+        "DATA NOT PUBLICLY AVAILABLE"
+      ],
+      "known_pipeline_schools": [],
+      "documentation_friendliness": "high",
+      "documentation_notes": "MIT has an international-specific aid page, accepts local-country tax documents with non-professional English translation, uses CSS Profile plus IDOC, may request CSS Business/Farm Supplement, and assigns financial aid counselors. No Bangladesh-specific documentation page was found."
+    }
+  },
+  "merit_aid": {
+    "available_to_intl": false,
+    "program_names": [],
+    "threshold_sat_25th": "DATA NOT PUBLICLY AVAILABLE",
+    "threshold_sat_75th": "DATA NOT PUBLICLY AVAILABLE",
+    "threshold_gpa": "DATA NOT PUBLICLY AVAILABLE",
+    "avg_merit_award": "DATA NOT PUBLICLY AVAILABLE",
+    "renewable": "DATA NOT PUBLICLY AVAILABLE",
+    "renewal_gpa_req": "DATA NOT PUBLICLY AVAILABLE",
+    "competes_with_need_aid": "DATA NOT PUBLICLY AVAILABLE",
+    "source_url": "https://mitadmissions.org/help/faq/scholarships/ ; https://ir.mit.edu/projects/2024-25-common-data-set/ (retrieved 2026-05-22)"
+  },
+  "clutch_programs": [
+    {
+      "name": "MIT Scholarship",
+      "type": "need",
+      "intl_eligible": true,
+      "bd_eligible": true,
+      "award_range": [
+        "DATA NOT PUBLICLY AVAILABLE",
+        "DATA NOT PUBLICLY AVAILABLE"
+      ],
+      "requires_separate_application": false,
+      "deadline": "Follows MIT financial aid application deadlines: November 30 for Early Action and February 15 for Regular Action",
+      "notes": "Automatic consideration through CSS Profile plus IDOC; median MIT Scholarship was USD 69,777 in 2024-2025; awarded solely on financial need."
+    },
+    {
+      "name": "First Year Grant",
+      "type": "need",
+      "intl_eligible": true,
+      "bd_eligible": true,
+      "award_range": [
+        2000,
+        2000
+      ],
+      "requires_separate_application": false,
+      "deadline": "No separate application found",
+      "notes": "For highest-need first-year students; intended for transition costs."
+    },
+    {
+      "name": "QuestBridge National College Match",
+      "type": "need",
+      "intl_eligible": true,
+      "bd_eligible": false,
+      "award_range": [
+        "full cost of attendance",
+        "full cost of attendance"
+      ],
+      "requires_separate_application": true,
+      "deadline": "QuestBridge calendar; MIT supplement and aid materials by November 1 for ranked finalists",
+      "notes": "Important limitation: QuestBridge says international students living outside the U.S. are not eligible. So this is not usable for a Bangladesh-based applicant."
+    }
+  ],
+  "reachability": {
+    "sat_1300": {
+      "p_admit": 0.001,
+      "p_meaningful_funding_if_admitted": 0.95
+    },
+    "sat_1400": {
+      "p_admit": 0.003,
+      "p_meaningful_funding_if_admitted": 0.95
+    },
+    "sat_1480": {
+      "p_admit": 0.008,
+      "p_meaningful_funding_if_admitted": 0.95
+    },
+    "sat_1550": {
+      "p_admit": 0.025,
+      "p_meaningful_funding_if_admitted": 0.95
+    },
+    "notes": "These are ESTIMATES, not MIT published probabilities. They are anchored to MIT's 1.96% international admit rate for the Class of 2029, MIT's admitted-score ranges, and MIT's very high likelihood of substantial need-based funding once a high-need student is admitted. Methodology schema bins are sat_1300 and sat_1400; in the report these correspond to the requested 1350 and 1430 bands."
+  },
+  "endowment_stability": {
+    "endowment_total": 27366200000,
+    "endowment_per_student": "ESTIMATE: about USD 2.316 million per student using USD 27.3662 billion endowed funds and 11,816 students",
+    "aid_budget_trend_3yr": "unknown",
+    "policy_change_last_5yr": "No negative international-aid policy change was identified in reviewed official sources. Current 2026 pages continue to state need-blind admissions for all students and 100% demonstrated-need treatment for international students.",
+    "full_need_year_1_only_risk": false
+  },
+  "admissions": {
+    "sat_middle_50": [
+      "ESTIMATE: 1520",
+      "ESTIMATE: 1580"
+    ],
+    "gpa_middle_50": [
+      "DATA NOT PUBLICLY AVAILABLE",
+      "DATA NOT PUBLICLY AVAILABLE"
+    ],
+    "test_policy": "required",
+    "css_profile_required": true,
+    "ed_advantage_for_intl": "none",
+    "ed_applies_to_aid": false,
+    "early_decision_recommendation": "not recommended",
+    "early_decision_reason": "MIT does not offer Early Decision. It offers non-binding Early Action and Regular Action, and MIT explicitly says there is no strategic benefit to one cycle over the other.",
+    "admissions_values": [
+      "Academic readiness for MIT's General Institute Requirements",
+      "Strong preparation in calculus and quantitative science",
+      "Holistic admissions and match with MIT",
+      "Challenging humanities, arts, and social science coursework also matters",
+      "Context-aware evaluation of international curricula"
+    ],
+    "officer_quotes": []
+  },
+  "bangladesh_profile": {
+    "community_size": "weak",
+    "student_association_exists": "DATA NOT PUBLICLY AVAILABLE",
+    "alumni_visibility": "low",
+    "typical_academic_profile": {
+      "sat_range": [
+        "DATA NOT PUBLICLY AVAILABLE",
+        "DATA NOT PUBLICLY AVAILABLE"
+      ],
+      "common_curricula": [
+        "DATA NOT PUBLICLY AVAILABLE"
+      ],
+      "common_activities": [],
+      "common_majors": []
+    },
+    "common_essay_themes": [],
+    "red_flags_for_bd_applicants": [
+      "MIT does not explicitly name Bangladesh SSC/HSC on the reviewed admissions pages",
+      "No official WES/ECE requirement was found, but applicants must still provide formal school transcripts",
+      "Aid is re-evaluated annually rather than guaranteed as a fixed four-year package in the reviewed sources",
+      "Bangladesh-specific aid rate and package size are not publicly disclosed",
+      "QuestBridge is not available to students living in Bangladesh"
+    ],
+    "evidence_quality": "medium",
+    "sources": [
+      "https://iso.mit.edu/about-iso/statistics/international-student-statistics-2025-2026/ (retrieved 2026-05-22)",
+      "https://iso.mit.edu/about-iso/statistics/international-student-statistics-2024-2025/ (retrieved 2026-05-22)",
+      "https://mitadmissions.org/apply/prepare/foundations/ (retrieved 2026-05-22)",
+      "https://mitadmissions.org/apply/firstyear/transcripts/ (retrieved 2026-05-22)"
+    ]
+  },
+  "verdicts": {
+    "honest_summary": "MIT is financially real for a high-need Bangladeshi student, but admission is the real bottleneck. If admitted and if the family's need is documented in a way MIT accepts, MIT is one of the strongest full-funding outcomes in the U.S.; if not admitted, the generosity is irrelevant.",
+    "bottom_line_affordability": "fully affordable",
+    "recommended_for_bd_student_profile": "Recommended only as an ultra-reach for a very strong Bangladesh-based applicant, ideally with exceptional quantitative distinction, excellent testing, and a meticulously documented aid file.",
+    "clutch_factors_applicable": [
+      "High-level STEM or Olympiad distinction",
+      "Clear contextualisation of rigorous SSC/HSC or A-Level coursework",
+      "Strong SAT or ACT plus English proof if relevant",
+      "Well-prepared CSS Profile and IDOC documentation with translations",
+      "Willingness to request aid review if MIT misreads family finances"
+    ],
+    "key_risks": [
+      "Extremely low international admission odds",
+      "No Bangladesh-specific published curriculum guidance",
+      "Annual aid reassessment rather than a fixed package guarantee",
+      "Bangladesh-specific aid outcomes are not publicly visible"
+    ],
+    "confidence": "medium"
+  },
+  "data_quality": {
+    "data_gaps": [
+      "Bangladesh-specific aid rate is not public",
+      "Bangladesh-specific average package amount is not public",
+      "Actual average loan take-up among aided international undergraduates is not published separately",
+      "No reviewed official source confirmed a Bangladeshi student association at MIT",
+      "No robust verified Bangladesh feeder-school pattern was found"
+    ],
+    "contradictions": [
+      "No material contradiction between MIT's published aid claims and the CDS was found. The main source split is that need-blind wording is explicit on the admissions FAQ, while the international-specific aid page states same-process and full-need treatment without repeating the term need-blind."
+    ],
+    "stale_data_flags": [
+      "CDS H6 data are 2024-2025 estimated, not final",
+      "Current COA is 2026-2027, so comparisons against H6 require a year-mismatch caveat",
+      "Bangladesh enrollment counts are current for 2025-2026, but aid-by-country data are unavailable"
+    ],
+    "integrity_note": "This profile is strongest on official policy, CDS, admissions, cost, and MIT ISO country counts. It is weaker on Bangladesh-specific anecdotal profiles, feeder-school patterns, and any granular country-by-country aid breakdown because MIT does not publish those details."
+  }
+}

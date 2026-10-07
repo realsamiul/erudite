@@ -1,0 +1,580 @@
+# DATA ARCHITECTURE — BANGLADESHI APPLICANT INTELLIGENCE SYSTEM
+# Version 3.0
+# 
+# DESIGN PRINCIPLES:
+# 1. JSON files on disk — no database setup required to start, trivial to migrate later
+# 2. Every field is nullable — gaps are data, not errors  
+# 3. Sources array on every school — every number traces to a URL
+# 4. Patterns are first-class data — staging.json → confirmed.json
+# 5. Schema is additive — new sections (essays, visa) append without breaking existing data
+# 6. Computed fields are labeled — system knows what it calculated vs what it found
+#
+# FILE STRUCTURE:
+# data/
+#   schools/
+#     {school_id}.json         ← one file per school, complete profile
+#   patterns/
+#     staging.json             ← unconfirmed observations (all schools)
+#     confirmed.json           ← promoted, evidence-backed patterns
+#   essays/
+#     frameworks.json          ← essay frameworks by school + archetype
+#   visa/
+#     flags.json               ← long-term visa flags by school/state
+#   index.json                 ← lightweight school index for frontend queries
+#
+# ============================================================
+# SCHOOL SCHEMA v3.0
+# File: data/schools/{school_id}.json
+# ============================================================
+
+{
+  # ---- META ------------------------------------------------
+  "schema_version": "3.0",
+  "school_id": "string",              # lowercase_underscored e.g. "williams_college"
+  "display_name": "string",           # "Williams College"
+  "research_date": "YYYY-MM-DD",
+  "researched_by": "gemini-2.5-pro",  # model that produced this
+  "staleness_review_due": "YYYY-MM-DD",  # research_date + 12 months
+  "profile_completeness": "full|partial|stub",  # full = all layers attempted
+  "raw_notes": "string",              # freeform — anything that doesn't fit the schema
+
+  # ---- LAYER 0: POLICY TYPE (R2) ---------------------------
+  "policy": {
+    "type": "A|B|C|D|E|unknown",
+    "type_reasoning": "string",       # explain WHY this type, not just what
+    "verified_on": "YYYY-MM-DD",
+    "source_url": "string",
+    "applies_to_intl_specifically": true,  # confirmed on intl-specific page?
+    "confirmation_page": "string",    # exact URL of intl aid page
+    "need_blind_for_intl": null,
+    "meets_full_need": null,
+    "loans_in_package": null,
+    "policy_change_risk": "low|medium|high",
+    "policy_change_risk_reason": "string",
+    "recent_policy_changes": "string", # any change in last 3 years
+    "known_traps": "string"           # e.g. Columbia "admitted with funding" language
+  },
+
+  # ---- LAYER 1: CDS H6 FORENSICS (R3) ---------------------
+  "cds": {
+    "academic_year": "string",        # "2024-2025"
+    "source_url": "string",
+    "source_method": "pdf_direct|html|aggregator|ipeds",
+    "source_tier": "T1|T2|T3|STALE_ESTIMATE",
+
+    "h6_recipients": null,            # number of intl students who received aid
+    "h6_avg_award": null,             # average dollar award (may include loans)
+    "h6_total_budget": null,          # total dollars awarded to intl students
+    "total_intl_enrollment": null,    # from CDS Section B
+
+    "computed": {
+      "coverage_rate": null,          # h6_recipients / total_intl_enrollment
+      "implied_gap": null,            # COA_total - h6_avg_award
+      "pct_coa_covered": null,        # h6_avg_award / COA_total
+      "budget_per_intl_student": null # h6_total_budget / total_intl_enrollment
+    },
+
+    "loans_in_package": null,
+    "avg_loan_component": null,       # if loans known, what is avg loan amount?
+    "true_package": null,             # h6_avg_award - avg_loan_component
+    "work_study_in_package": null,
+    "merit_classified_as_need": null, # flag: inflates H6 figure at merit-heavy schools
+
+    "claimed_avg_on_website": null,   # what the aid page says avg is
+    "discrepancy_note": "string",     # explain H6 vs claimed discrepancy if any
+
+    "prior_year_h6_avg": null,        # for trend detection
+    "prior_year_recipients": null,
+    "trend_note": "string"
+  },
+
+  # ---- LAYER 2: COST OF ATTENDANCE -------------------------
+  "coa": {
+    "year": "string",
+    "tuition": null,
+    "room_board": null,
+    "fees": null,
+    "books_supplies": null,
+    "personal": null,
+    "total": null,
+    "source_url": "string"
+  },
+
+  # ---- LAYER 3: NATIONALITY PROXY (R4) ---------------------
+  "nationality_aid_profile": {
+    "western_english_signal": "strong|moderate|weak|absent",
+    "east_southeast_asian_signal": "strong|moderate|weak|absent",
+    "south_asian_signal": "strong|moderate|weak|absent",
+    "south_asian_signal_evidence": "string",
+
+    "documentation_friendliness": "high|medium|low",
+    "documentation_notes": "string",  # e.g. dedicated intl aid counselor? CSS guidance?
+    "efc_inflation_risk": "low|medium|high|unknown",
+    "efc_notes": "string",
+
+    "intl_aid_counselor_exists": null,
+    "south_asia_officer_exists": null,
+
+    "bangladeshi_specific": {
+      "estimated_annual_admits": null,
+      "estimated_funded_admits": null,
+      "estimated_aid_rate_pct": null,
+      "estimated_avg_package_range": [null, null],
+      "evidence_quality": "high|medium|low|none",
+      "evidence_sources": [],
+
+      "bd_admitted_profiles": [
+        # Each entry = one documented Bangladeshi student (anonymized)
+        {
+          "source": "linkedin|reddit|youtube|news",
+          "source_url": "string",
+          "year": null,             # graduation year
+          "curriculum": "A-Level|IB|HSC|SSC|HSC+SAT|unknown",
+          "sat_range": "string",    # "1420-1460" or "unknown"
+          "aid_amount": null,       # if disclosed
+          "major": "string",
+          "activities_noted": [],   # debate, olympiad, coding, etc
+          "pipeline_school": "string",  # high school if named
+          "notes": "string"
+        }
+      ],
+
+      "known_pipeline_schools": [],  # BD high schools that appear multiple times
+      "community_size": "strong|moderate|weak|minimal",
+      "student_association_exists": null,
+      "student_association_url": "string"
+    }
+  },
+
+  # ---- LAYER 4: CURRICULUM GATE ---------------------------
+  # This is often the silent binary gate that ends applications before they begin.
+  "curriculum_recognition": {
+    "cambridge_o_level_accepted": null,
+    "cambridge_a_level_accepted": null,
+    "ssc_hsc_accepted": null,         # Bangladesh national curriculum
+    "ib_accepted": null,
+    "credential_evaluation_required": null,   # WES, ECE, or similar
+    "accepted_evaluators": [],        # e.g. ["WES", "ECE"]
+    "explicit_policy_url": "string",
+    "policy_statement": "string",     # exact quote from the admissions page
+    "bd_curriculum_notes": "string",  # anything specific to Bangladesh
+    "gate_status": "clear|conditional|blocked|unknown",
+    "gate_explanation": "string"      # plain English: what does a HSC student need to do?
+  },
+
+  # ---- LAYER 5: MERIT AID PARALLEL TRACK ------------------
+  "merit_aid": {
+    "available_to_intl": null,
+    "intl_eligible_explicitly_stated": null,
+    "program_names": [],
+    "threshold_sat_25th": null,
+    "threshold_sat_75th": null,
+    "threshold_gpa": null,
+    "avg_merit_award": null,
+    "award_range": [null, null],
+    "renewable": null,
+    "renewal_conditions": "string",
+    "stacks_with_need_aid": null,     # can student receive both need + merit?
+    "source_url": "string",
+    "notes": "string"
+  },
+
+  # ---- LAYER 6: NAMED SCHOLARSHIPS & CLUTCH PROGRAMS (R6) -
+  "clutch_programs": [
+    {
+      "name": "string",
+      "type": "merit|need|leadership|regional|first_gen",
+      "intl_eligible": null,
+      "bd_eligible": null,
+      "award_range": [null, null],
+      "requires_separate_application": null,
+      "deadline": "string",
+      "application_url": "string",
+      "notes": "string",
+      "bd_strategic_value": "high|medium|low",
+      "bd_strategic_reason": "string"  # why this is or isn't actionable for BD students
+    }
+  ],
+
+  # ---- LAYER 7: ADMISSIONS INTELLIGENCE -------------------
+  "admissions": {
+    "sat_middle_50": [null, null],
+    "sat_25th": null,
+    "sat_75th": null,
+    "act_middle_50": [null, null],
+    "gpa_middle_50": [null, null],
+    "test_policy": "required|optional|blind",
+    "test_policy_for_intl": "required|optional|blind|unclear",
+    "test_policy_note": "string",     # some schools recommend for intl even if optional
+
+    "overall_admit_rate": null,
+    "intl_admit_rate": null,
+    "intl_applications": null,
+    "intl_enrolled": null,
+    "intl_pct_of_class": null,
+
+    "css_profile_required": null,
+    "school_form_required": null,     # some have their own intl aid form
+    "noncustodial_form_required": null,
+    "early_decision_available": null,
+    "ed_advantage_for_intl": "strong|moderate|weak|none|unknown",
+    "ed_applies_to_aid": null,
+    "ed_recommendation": "strongly|conditionally|not recommended|unknown",
+    "ed_recommendation_reason": "string",
+
+    "admissions_values": [],          # what the school says it looks for
+    "intl_student_priorities": "string",  # any explicit language about intl priorities
+
+    "officer_quotes": [
+      {
+        "quote": "string",
+        "officer_name": "string",
+        "title": "string",
+        "date": "YYYY-MM-DD",
+        "source_url": "string",
+        "relevance": "string"  # why this quote matters for BD applicants
+      }
+    ]
+  },
+
+  # ---- LAYER 8: STABILITY ASSESSMENT (R7) -----------------
+  "stability": {
+    "endowment_total": null,
+    "endowment_per_student": null,
+    "aid_budget_trend_3yr": "growing|flat|shrinking|unknown",
+    "policy_changes_last_5yr": "string",
+    "four_year_guarantee": null,
+    "four_year_guarantee_conditions": "string",
+    "year1_only_risk": null,          # evidence of aid dropping after year 1?
+    "policy_change_early_warnings": [],  # any warning signals from R7 found?
+    "endowment_returns_concern": null  # below 5% for 2+ years?
+  },
+
+  # ---- LAYER 9: EXPECTED UTILITY COMPUTATIONS (R5) --------
+  "expected_utility": {
+    "assumed_need": 60000,            # annual need assumption for computations
+    "computation_notes": "string",
+
+    "by_sat_band": {
+      "sat_1350": {
+        "p_admit": null,
+        "p_funding_if_admitted": null,
+        "avg_true_package": null,
+        "annual_gap": null,           # COA - true_package - assumed_family_capacity
+        "eu_score": null,             # p_admit × p_funding × true_package
+        "interpretation": "string"
+      },
+      "sat_1430": {
+        "p_admit": null,
+        "p_funding_if_admitted": null,
+        "avg_true_package": null,
+        "annual_gap": null,
+        "eu_score": null,
+        "interpretation": "string"
+      },
+      "sat_1480": {
+        "p_admit": null,
+        "p_funding_if_admitted": null,
+        "avg_true_package": null,
+        "annual_gap": null,
+        "eu_score": null,
+        "interpretation": "string"
+      },
+      "sat_1550": {
+        "p_admit": null,
+        "p_funding_if_admitted": null,
+        "avg_true_package": null,
+        "annual_gap": null,
+        "eu_score": null,
+        "interpretation": "string"
+      }
+    },
+
+    "clutch_factor_adjustments": [
+      {
+        "factor": "string",           # e.g. "BDMO Bronze+"
+        "affects": "p_admit|p_funding|both",
+        "multiplier": null,           # e.g. 1.3
+        "conditions": "string",       # e.g. "only if SAT >= 1550"
+        "evidence_quality": "high|medium|low|estimate"
+      }
+    ]
+  },
+
+  # ---- LAYER 10: VISA & LONG-TERM FLAGS --------------------
+  "visa_flags": {
+    "f1_approval_rate_bangladesh": null,  # from IIE Open Doors if available
+    "state": "string",
+    "state_political_risk": "low|medium|high|unknown",
+    "state_risk_note": "string",
+    "opt_available": null,
+    "stem_opt_extension": null,
+    "cpt_available": null,
+    "documented_visa_issues_at_school": "string",
+    "post_graduation_pathway_notes": "string"
+  },
+
+  # ---- LAYER 11: ESSAY & ADVISORY SEEDS -------------------
+  # Captured as Gemini researches each school — feeds the essay advisory pillar later
+  "essay_advisory_seeds": {
+    "school_values_from_admissions": [],  # what they explicitly say they want
+    "supplement_prompts": [],             # current year supplement questions
+    "bd_essay_themes_observed": [],       # themes that appear in BD admits' profiles
+    "bd_essay_pitfalls": [],              # common mistakes observed or mentioned
+    "officer_advice_quotes": [],          # any officer quotes about essays/applications
+    "intl_student_essay_notes": "string"  # anything intl-specific about how to frame essays
+  },
+
+  # ---- VERDICTS & SUMMARY ----------------------------------
+  "verdicts": {
+    "honest_summary": "string",          # 100 words max, older sibling voice
+    "bottom_line_affordability": "fully affordable|possible with full aid|likely gapped|avoid for high-need",
+    "curriculum_gate_verdict": "open|conditional|blocked|unknown",
+    "recommended_action": "apply|apply_ed|apply_as_long_shot|skip|skip_unless",
+    "recommended_action_condition": "string",  # fill in for skip_unless
+    "clutch_factors_applicable_to_bd": [],
+    "key_risks": [],
+    "key_advantages_for_bd": [],
+    "cross_reference_alternatives": [],   # 2-3 similar schools to consider instead or alongside
+    "confidence": "high|medium|low",
+    "confidence_reason": "string"
+  },
+
+  # ---- DATA QUALITY ----------------------------------------
+  "data_quality": {
+    "data_gaps": [],           # list of fields that are null and why
+    "contradictions": [],      # list of discrepancies found
+    "stale_data_flags": [],    # list of fields older than their freshness threshold
+    "integrity_note": "string" # key caveats — what would change this assessment?
+  },
+
+  # ---- SOURCES ---------------------------------------------
+  # Every claim in this file should be traceable to an entry here
+  "sources": [
+    {
+      "url": "string",
+      "retrieved": "YYYY-MM-DD",
+      "tier": "T1|T2|T3|T4",
+      "content_type": "cds_pdf|aid_page|admissions_page|linkedin|reddit|news|other",
+      "fields_sourced": [],      # which fields does this source support?
+      "notes": "string"
+    }
+  ]
+}
+
+
+# ============================================================
+# PATTERNS SCHEMA
+# File: data/patterns/staging.json
+# File: data/patterns/confirmed.json
+# ============================================================
+
+# staging.json — array of unconfirmed observations
+[
+  {
+    "pattern_id": "PATT_001",
+    "status": "staging|confirmed|rejected",
+    "first_observed": "YYYY-MM-DD",
+    "last_updated": "YYYY-MM-DD",
+
+    "hypothesis": "string",        # plain English: what is the pattern?
+    "category": "activity_correlation|school_pipeline|curriculum_gate|documentation|scarcity|timing|clutch_factor",
+    "schools_affected": [],        # school_ids where this pattern has been observed
+
+    "evidence": [
+      {
+        "case_id": "string",       # unique identifier
+        "school_id": "string",
+        "source_url": "string",
+        "source_tier": "T1|T2|T3|T4",
+        "description": "string",   # what was observed?
+        "date": "YYYY-MM-DD"
+      }
+    ],
+
+    "evidence_count": 0,
+    "evidence_tier_summary": "string",  # e.g. "2x T3, 1x T4"
+    "promotion_threshold": "5x T3+ or 3x T2+",
+    "ready_for_promotion": false,
+
+    "if_confirmed_weight": null,   # estimated EU multiplier or probability boost
+    "applicability_conditions": "string",  # when does this pattern apply?
+
+    "researcher_notes": "string"
+  }
+]
+
+# confirmed.json — array of promoted, weighted patterns
+[
+  {
+    "pattern_id": "string",
+    "promoted_on": "YYYY-MM-DD",
+    "hypothesis": "string",
+    "category": "string",
+    "schools_affected": [],
+
+    "weight": {
+      "affects": "p_admit|p_funding|both",
+      "multiplier": null,
+      "conditions": "string",
+      "confidence": "high|medium|low"
+    },
+
+    "evidence_summary": "string",
+    "total_cases": 0,
+    "source_tiers": "string",
+
+    "actionability": "string"      # what should a BD student DO with this information?
+  }
+]
+
+
+# ============================================================
+# INDEX SCHEMA
+# File: data/index.json
+# Lightweight — used by frontend without loading all school files
+# ============================================================
+
+{
+  "generated": "YYYY-MM-DD",
+  "schools": [
+    {
+      "school_id": "string",
+      "display_name": "string",
+      "policy_type": "A|B|C|D|E",
+      "profile_completeness": "full|partial|stub",
+      "coverage_rate": null,
+      "avg_true_package": null,
+      "coa_total": null,
+      "curriculum_gate": "open|conditional|blocked|unknown",
+      "eu_scores": {
+        "sat_1350": null,
+        "sat_1430": null,
+        "sat_1480": null,
+        "sat_1550": null
+      },
+      "recommended_action": "string",
+      "bottom_line_affordability": "string",
+      "research_date": "YYYY-MM-DD"
+    }
+  ]
+}
+
+
+# ============================================================
+# ESSAYS SCHEMA
+# File: data/essays/frameworks.json
+# Populated over time as evidence accumulates
+# ============================================================
+
+{
+  "schema_version": "1.0",
+  "last_updated": "YYYY-MM-DD",
+
+  "general_frameworks": [
+    {
+      "framework_id": "string",
+      "name": "string",              # e.g. "The Constraint as Lens"
+      "description": "string",       # what is the underlying essay move?
+      "applicable_to": "all|stem|humanities|first_gen|specific_schools",
+      "bd_relevance": "string",      # why this works for BD students specifically
+      "example_themes": [],          # themes that work well with this framework
+      "common_pitfalls": [],
+      "observed_in_successful_bd_admits": false,
+      "schools_where_effective": []
+    }
+  ],
+
+  "school_specific_notes": {
+    "{school_id}": {
+      "supplement_prompts": [],
+      "what_works_for_bd": "string",
+      "what_doesnt_work": "string",
+      "officer_guidance": "string",
+      "evidence_source": "string"
+    }
+  },
+
+  "the_bd_essay_challenge": {
+    "core_problem": "Bangladeshi academic training emphasizes argumentative/analytical writing. US college essays ask for self-reflection, vulnerability, and story-driven insight. This is a learned skill, not a natural one.",
+    "common_mistakes": [
+      "Leading with accomplishments rather than specific moment/observation",
+      "Describing what they did rather than what they noticed or how they changed",
+      "Using formal academic register instead of conversational voice",
+      "Listing achievements instead of exploring a single thread deeply",
+      "Writing about Bangladesh as poverty narrative rather than complex home"
+    ],
+    "frameworks_that_bridge_the_gap": []
+  }
+}
+
+
+# ============================================================
+# VISA FLAGS SCHEMA
+# File: data/visa/flags.json
+# ============================================================
+
+{
+  "schema_version": "1.0",
+  "last_updated": "YYYY-MM-DD",
+
+  "general_bangladesh_flags": {
+    "f1_visa_approval_rate_general": null,
+    "common_denial_reasons": [],
+    "documentation_requirements": [],
+    "financial_proof_threshold": null,
+    "source": "string"
+  },
+
+  "state_level_flags": {
+    "{state_code}": {
+      "political_environment": "stable|watch|concerning",
+      "notes": "string",
+      "last_updated": "YYYY-MM-DD"
+    }
+  },
+
+  "school_level_flags": {
+    "{school_id}": {
+      "documented_issues": "string",
+      "opt_stem_eligible": null,
+      "cpt_available": null,
+      "notes": "string"
+    }
+  }
+}
+
+
+# ============================================================
+# MIGRATION PATH (for when JSON files outgrow the folder)
+# ============================================================
+#
+# The flat JSON structure is designed to migrate cleanly.
+#
+# To Firestore:
+#   - Each school JSON → one Firestore document in collection "schools"
+#   - patterns/staging.json → "patterns_staging" collection
+#   - patterns/confirmed.json → "patterns_confirmed" collection  
+#   - index.json → "school_index" single document
+#
+# To SQLite (for structured EU queries):
+#   CREATE TABLE schools (
+#     school_id TEXT PRIMARY KEY,
+#     display_name TEXT,
+#     policy_type TEXT,
+#     coverage_rate REAL,
+#     avg_true_package REAL,
+#     coa_total REAL,
+#     eu_1350 REAL, eu_1430 REAL, eu_1480 REAL, eu_1550 REAL,
+#     curriculum_gate TEXT,
+#     research_date TEXT
+#   );
+#   -- Populated by: python scripts/json_to_sqlite.py data/schools/ schools.db
+#
+# To vector store (for semantic search over honest_summary + bd profiles):
+#   - Embed: honest_summary + raw_notes + essay_advisory_seeds
+#   - Any embedding provider works — the JSON structure doesn't change
+#
+# The rule: the JSON files are always the source of truth.
+# The database is always derived from the JSON files.
+# Never write to the database directly; always write to JSON and regenerate.

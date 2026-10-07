@@ -1,0 +1,34 @@
+dest	source	sha256
+01_framework/BANGLADESHI_APPLICANT_INTELLIGENCE_SYSTEM.txt	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/BANGLADESHI APPLICANT INTELLIGENCE SYSTEM.txt	163739e16695d4ddc70d9a10e29a5f2e5e126708c18b62e968ef8a935d00bf84
+01_framework/GEMINI.md	/home/ubuntu/MONARQ/work/_raw/C/DocRag all files/Erudite Plan B/files/GEMINI.md	2c0303032fd56d2d83138dcbc068196a62f163f5cfe34f3507f45f6b9bf05759
+01_framework/MASTER_RESEARCH_PROMPT.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/MASTER_RESEARCH_PROMPT.md	b0cd9771c4b1ecd8a1b1b2a699e47c886c6011c3dd3c726ff2da8536dfb7e547
+01_framework/data_architecture.yaml	/home/ubuntu/MONARQ/work/_raw/C/DocRag all files/Erudite Plan B/files/data_architecture.yaml	7edbdb814618f0cf6ac31ac1ad02a5e81443cb212597d1b19c52caf54d13ffef
+01_framework/gemini_upgrade_notes.txt	/home/ubuntu/MONARQ/work/_raw/C/DocRag all files/Erudite Plan B/Intro .txt	7cf4cb5b2c6db724b7554c7532f3cc6095ba2a8fbbe6bc792de854a0615119a6
+02_school_reports/amherst.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/deep-research-report 4.md	47f8bd1487f668fea37738ec255af42cc055dfceb42430926b12e7eef4e47e7f
+02_school_reports/mit.md (unwrapped from _raw_mit_wrapped.json)	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/deep-research-report 6.md	aa4ef46074642160567a3aa5b45d5829c2e183dbeddce378b57c0a7a2addb495
+02_school_reports/mount_holyoke.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/deep-research-report 3.md	e01569b1b92a1bd2d4f532f61ee17403c4aee6379342aa6bca5e7b978fcfb8d6
+02_school_reports/nyu.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/deep-research-report 2.md	d6960179d6050dd6a808e960632c2f3952e0e893d111fc392ade4ad851d96e18
+02_school_reports/vanderbilt.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/deep-research-report.md	be6bad2bdfed609cf6225743e8738607a6859a7af0f280070ac55492ea4cdffd
+02_school_reports/yale.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Erudite/deep-research-report 5.md	3278aa3fc1806d69056b798c5895c622596b8901fe24fedfad673e5c9158d7a9
+03_product/erudite_v2_design_spec.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Freelancing/erudite_v2_design_spec.md	c0fca7e536b385e9c1391f5942e2c3090c4c8d95c6ee2245dec94f6715233099
+03_product/erudite_v2_handoff.txt	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Freelancing/erudite_v2_handoff.txt	5ff5ada5b7c68758ac506ec7bfce432d433a679f7d5ce236d7bfcd402590518d
+03_product/erudite_v2_positioning.md	/home/ubuntu/MONARQ/work/_raw/C/DocRag all files/# Erudite V2 Bangladesh Applicant Intelligence System/# Erudite V2 Bangladesh Applicant Intelligence System.md	a2cab0a656f849b5592ce325ff9db0ba0c0c7001936ae1a2174aabf1941eccfe
+03_product/landing_copy_stitchmark.md	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Uploads/documents/ContentStitchmark.md	e5c223a248e866d567f4951bd67e54f8c45d68e9b04bfc3f90ee2f3eacacb240
+04_plans/SONNET_ERUDITE_PLAN.md	/home/ubuntu/MONARQ/EruditeFinal.md	e598712df4ff36704c608edd66cb84f8e0352f3b3f090481f7708f1938b75c0c
+05_code/erudite-v2/backend/Dockerfile	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/Dockerfile	aac8349b4424d99685476a95ffa9aea2dda62014765e7e1d0048a8ba93ef1d86
+05_code/erudite-v2/backend/main.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/main.py	f435bee477106e4173305bda5e1894664f4c01a59ece9d279c464d567c38d3f4
+05_code/erudite-v2/backend/middleware/auth.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/middleware/auth.py	40bee4b62fd2c1c8880f9af9a31fa2d7304d30287aebad2909ac00d9a3aae9dc
+05_code/erudite-v2/backend/models/schemas.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/models/schemas.py	55d11525757f5bb9c5e492cf2858c78b97016f2731c38f71858123bca61ead91
+05_code/erudite-v2/backend/requirements.txt	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/requirements.txt	b0254a6b5cda8b00bc9bdd63cd368e138d1f37648fcfcfd7ffc879f7a5b784e1
+05_code/erudite-v2/backend/routers/advisor.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/routers/advisor.py	3e25234a584407479bcbc23e0ae8c1f23712416a80ffb782a97569a44a74a412
+05_code/erudite-v2/backend/services/discovery.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/services/discovery.py	479b212869d0ab4d02a84432e943045362cc123f9e9b8ed87edb53f999f9cd51
+05_code/erudite-v2/backend/services/gemini.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/services/gemini.py	047c956163088c3d8da81e2ad0ad9db766a5fe4688a9eeffa95bfcb99879fa7a
+05_code/erudite-v2/backend/services/persistence.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/backend/services/persistence.py	ab30aa35d3b087d9d797336191f3aecbd2f7acfd9711ed610d07ac65c81e9f70
+05_code/erudite-v2/modal/store.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/modal/store.py	ebac3006236104d59e31f14e66e5b30f5dc0fd2c87fd99d278245912d85b8283
+05_code/erudite-v2/scripts/create_discovery_store.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/scripts/create_discovery_store.py	83e953cd4caf3a1cc5342ed694cef245a028485dfebf7da3389e6df415220556
+05_code/erudite-v2/scripts/download_all_seeds.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/scripts/download_all_seeds.py	12320a0160c49259f74a0dc2f2d0000bf070e6f93cf5c8b469cc06a2b837a6ca
+05_code/erudite-v2/scripts/ingest_discovery.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/scripts/ingest_discovery.py	70e87ed4070466df0a52192333d5bb880d8355e8038fb2f65a44d3960b431696
+05_code/erudite-v2/scripts/patch_rag_config.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/scripts/patch_rag_config.py	1e73ab2c453fb6b15f81bcbe1f39724c9fdd6bf12e5287112470fe82d6fbcd70
+05_code/erudite-v2/scripts/provision_discovery_enterprise.py	/home/ubuntu/MONARQ/work/_raw/A/docrag-v2/erudite-v2/scripts/provision_discovery_enterprise.py	faf217798753de07737b82a9da72c5fbbd0ee2dd2d83d3849569225d648d9296
+06_ops_history/gcp_startup_grant_proposal.txt	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Freelancing/gcp_startup_grant_proposal.txt	915ff70b0dbdee554b16abd46f1bb7b5086f7d1489a89c1d9efd9d8bcf73378a
+06_ops_history/technical_journey_and_platform_audit.txt	/home/ubuntu/MONARQ/work/_raw/B/TermiusGemini-main/Freelancing/technical_journey_and_platform_audit.txt	349abcfbf7ff5ee03c48dc3e17e8f436d3226676e5c80f2186dcc992a6278a2d
