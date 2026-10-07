@@ -25,6 +25,9 @@ Per-file source paths + sha256 hashes: see `PROVENANCE.tsv`.
 ```
 erudite/
 ├── README.md                       ← this file
+├── AGENTS.md                       ← orientation for agents working in the repo
+├── ERUDITE_REPORT.md               ← consolidated technical report (entry point)
+├── ARENA_AGENT_PROMPT.md           ← brief for an external frontier agent (arena.ai)
 ├── PROVENANCE.tsv                  ← dest → source → sha256
 ├── 01_framework/                   ← the reasoning IP (R1–R7)
 │   ├── BANGLADESHI_APPLICANT_INTELLIGENCE_SYSTEM.txt
@@ -94,20 +97,34 @@ Cross-references (not copied, DocRAG-primary but mention Erudite):
 
 ---
 
+## Objective (the wishlist)
+
+An AI agent that uses this knowledge base to deliver **genuinely powerful advice tailored to
+distinct Bangladeshi student backgrounds** — financial aid, visa, essay, plan, school selection,
+and interview prep — where the advice changes materially with the student's real situation
+(income/need, SSC/HSC vs A-levels, major, scores, risk tolerance, family constraints).
+
+`!` **Knowledge-base philosophy (deliberate):** the dossiers are intentionally **narrative prose,
+not rigid JSON**. Strict JSON schemas were **dispensed with because they flatten away the
+complexity** (nuance, conditions, caveats, R1–R7 reasoning) that makes the advice good.
+`01_framework/data_architecture.yaml` is *one optional lens*, not the data contract. Retrieval and
+reasoning operate over full prose, while provenance and the citation gate still hold. Any JSON is
+transport/output only, never the epistemic source.
+
 ## What each layer is for
 
 - **01_framework** — R1 claim-decomposition, R2 five-tier policy topology (A–E),
   R3 CDS-H6 forensic chain, R4 nationality-decomposition proxy, R5
   reachability-funding inversion (expected-utility), R6 clutch factors, R7 staleness.
-- **02_school_reports** — forensic dossiers, one per school. Analyst prose →
-  needs conversion to the strict schema in `01_framework/data_architecture.yaml`.
+- **02_school_reports** — forensic dossiers, one per school, as **rich narrative** (the only
+  proprietary asset; keep the prose, do not collapse it to JSON).
 - **03_product** — V2 design spec, production handoff, landing/positioning copy.
 - **04_plans** — Sonnet's Erudite-first plan (recommendations, none locked).
 - **05_code** — the deployed-but-defective V2 backend to be refactored.
 
-## Next (per plan, unresolved)
+## Next (unresolved)
 
-1. Convert 6 reports → schema-valid dossiers (DashScope 1M-context batch ingest).
-2. Human QC on numeric fields (`admit_rate`, `avg_intl_aid_award`, `need_blind_intl`).
-3. Deterministic R5/R6 `compute.py` + hard citation gate.
+1. Ingest the 6 dossiers as narrative into an OSS retrieval store (keep prose intact).
+2. Human QC on the facts that drive money math (`admit_rate`, `avg_intl_aid_award`, `need_blind_intl`).
+3. Deterministic R5/R6 computation layer + **hard citation gate** over the narrative KB.
 4. Stand up retrieval (OSS bge-m3/pgvector on Modal, per plan) — no GCP Discovery Engine.
